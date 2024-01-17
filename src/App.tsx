@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { v4 as uuid } from "uuid";
 import {
 	DndContext,
 	DragEndEvent,
@@ -22,22 +23,11 @@ import CardList from "./components/CardList";
 import CardItemOverlay from "./components/CardItemOverlay";
 import CardListOverlay from "./components/CardListOverlay";
 import useCardStore from "./stores/cards";
+import useColumnStore from "./stores/columns";
+import Add from "./components/Icons/Add";
 
 export default function App() {
-	const [columns, setColumns] = useState([
-		{
-			id: "1",
-			title: "Column 1",
-		},
-		{
-			id: "2",
-			title: "Column 2",
-		},
-		{
-			id: "3",
-			title: "Column 3",
-		},
-	]);
+	const { columns, setColumns, addNewColumn } = useColumnStore();
 	const { cards, setCards } = useCardStore();
 	const columnsIds = useMemo(() => columns.map((list) => list.id), [columns]);
 	const [selectedColumn, setSelectedColumn] = useState<List | null>(null);
@@ -83,14 +73,14 @@ export default function App() {
 		)
 			return;
 
-		setColumns((lists) => {
-			const activeColumnIndex = lists.findIndex(
-				(list) => list.id === active.id,
-			);
-			const overColumnIndex = lists.findIndex((list) => list.id === over.id);
+		const activeColumnIndex = columns.findIndex(
+			(column) => column.id === active.id,
+		);
+		const overColumnIndex = columns.findIndex(
+			(column) => column.id === over.id,
+		);
 
-			return arrayMove(lists, activeColumnIndex, overColumnIndex);
-		});
+		setColumns(arrayMove(columns, activeColumnIndex, overColumnIndex));
 	};
 
 	const handleDragOver = (event: DragOverEvent) => {
@@ -129,12 +119,12 @@ export default function App() {
 		}
 	};
 
-	const updateColumn = (id: string, title: string) => {
-		const newColumns = columns.map((list) => {
-			if (list.id !== id) return list;
-			return { ...list, title };
-		});
-		setColumns(newColumns);
+	const createNewColumn = () => {
+		const newColumn: List = {
+			id: uuid(),
+			title: "New Column",
+		};
+		addNewColumn(newColumn);
 	};
 
 	return (
@@ -156,10 +146,16 @@ export default function App() {
 								key={data.id}
 								data={data}
 								cards={cards.filter((card) => card.columnId === data.id)}
-								updateColumn={updateColumn}
 							/>
 						))}
 					</SortableContext>
+					<button
+						onClick={() => createNewColumn()}
+						className="px-8 py-12 text-2xl text-neutral-300 flex items-center justify-center gap-4 border-2 rounded-lg border-dashed border-neutral-300 
+					hover:text-neutral-800 hover:border-neutral-800 hover:border-solid hover: bg-neutral-50 transition-all"
+					>
+						<Add /> Add Column
+					</button>
 				</div>
 			</main>
 			{createPortal(

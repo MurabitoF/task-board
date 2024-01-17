@@ -11,15 +11,17 @@ import type { Card, List } from "../types";
 import CardItem from "./CardItem";
 import Add from "./Icons/Add";
 import useCardStore from "../stores/cards";
+import useColumnStore from "../stores/columns";
+import Trash from "./Icons/Trash";
 
 interface Props {
 	data: List;
 	cards: Card[];
-	updateColumn: (id: string, title: string) => void;
 }
 
-const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
+const CardList: React.FC<Props> = ({ data, cards }) => {
 	const { addNewCard } = useCardStore();
+	const { updateColumn, removeColumn } = useColumnStore();
 	const [isEditing, setIsEditing] = useState(false);
 	const cardsIds = useMemo(() => cards.map((card) => card.id), [cards]);
 	const {
@@ -102,7 +104,12 @@ const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
 						/>
 					)}
 				</div>
-				<button>Delete</button>
+				<button
+					onClick={() => removeColumn(data.id)}
+					className="rounded-lg p-1 stroke-neutral-500 hover:stroke-white hover:bg-red-500 transition-all"
+				>
+					<Trash />
+				</button>
 			</div>
 			<ul className="min-h-[112px] max-h-[600px] flex flex-col flex-grow gap-4 py-4 px-3 overflow-y-auto">
 				<SortableContext
