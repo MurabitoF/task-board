@@ -70,7 +70,7 @@ const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
 		<section
 			ref={setNodeRef}
 			style={style}
-			className="w-[350px]  rounded-lg bg-neutral-50 overflow-x-hidden flex flex-col shadow-md"
+			className="w-[350px] rounded-lg bg-neutral-50 overflow-x-hidden flex flex-col shadow-md"
 		>
 			<div
 				{...attributes}
