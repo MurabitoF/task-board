@@ -57,12 +57,12 @@ const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
 		<section
 			ref={setNodeRef}
 			style={style}
-			className="w-[350px] max-h-[800px] rounded-lg bg-neutral-200 overflow-x-hidden overflow-y-auto flex flex-col"
+			className="w-[350px]  rounded-lg bg-neutral-50 overflow-x-hidden flex flex-col shadow-md"
 		>
 			<div
 				{...attributes}
 				{...listeners}
-				className="flex items-center justify-between p-4 bg-neutral-100"
+				className="flex items-center justify-between p-4 bg-white"
 			>
 				<div className="flex items-center gap-2">
 					<p className=" text-sm font-semibold text-neutral-100 rounded-full w-5 h-5 grid place-content-center bg-neutral-800">
@@ -91,7 +91,7 @@ const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
 				</div>
 				<button>Delete</button>
 			</div>
-			<ul className="min-h-[112px] flex flex-col flex-grow gap-4 py-4 px-3">
+			<ul className="min-h-[112px] max-h-[600px] flex flex-col flex-grow gap-4 py-4 px-3 overflow-y-auto">
 				<SortableContext
 					id={data.id}
 					items={cardsIds}
@@ -103,7 +103,7 @@ const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
 				</SortableContext>
 			</ul>
 			<div className="bg-indigo-500 rounded-b-lg hover:opacity-90">
-				<button className="w-full h-10 flex items-center gap-2 px-4 font-semibold text-white">
+				<button className="w-full h-10 flex items-center gap-2 px-4 font-semibold text-white hover:outline-none">
 					<Add />
 					Add Card
 				</button>

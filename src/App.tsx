@@ -197,10 +197,8 @@ export default function App() {
 			onDragEnd={handleDragEnd}
 			onDragOver={handleDragOver}
 		>
-			<main className="bg-slate-950 min-h-screen w-full">
-				<h1 className="text-4xl text-center p-8 text-slate-100 font-semibold">
-					Task Board
-				</h1>
+			<main className="bg-neutral-100 min-h-screen w-full">
+				<h1 className="text-4xl text-center p-8 font-semibold">Task Board</h1>
 				<div className="flex justify-center items-start gap-6">
 					<SortableContext
 						items={columnsIds}
