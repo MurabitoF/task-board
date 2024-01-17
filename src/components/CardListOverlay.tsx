@@ -18,7 +18,6 @@ const CardListOverlay: React.FC<Props> = ({ data, cards }) => {
 
 					<h2 className="font-semibold min-w-36 min-h-3">{data.title}</h2>
 				</div>
-				<button>Delete</button>
 			</div>
 			<ul className="min-h-[112px] flex flex-col flex-grow gap-4 py-4 px-3">
 				{cards.map((card) => (

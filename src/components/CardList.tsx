@@ -63,7 +63,7 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 			<div
 				ref={setNodeRef}
 				style={style}
-				className="w-[350px] flex flex-col gap-4 border-2 border-neutral-50 rounded-lg bg-neutral-500 opacity-20"
+				className="w-[350px] flex flex-col gap-4 border-2 border-neutral-50 rounded-lg bg-neutral-300 opacity-20"
 			></div>
 		);
 	}
