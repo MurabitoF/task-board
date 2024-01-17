@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
-
-import type { Card, List } from "../types";
+import { v4 as uuid } from "uuid";
 import {
 	SortableContext,
 	useSortable,
@@ -8,8 +7,10 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
+import type { Card, List } from "../types";
 import CardItem from "./CardItem";
 import Add from "./Icons/Add";
+import useCardStore from "../stores/cards";
 
 interface Props {
 	data: List;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
+	const { addNewCard } = useCardStore();
 	const [isEditing, setIsEditing] = useState(false);
 	const cardsIds = useMemo(() => cards.map((card) => card.id), [cards]);
 	const {
@@ -41,6 +43,17 @@ const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
 		transform: CSS.Transform.toString(transform),
 		transition,
 		height: isDragging ? node.current?.offsetHeight : "auto",
+	};
+
+	const createNewCard = (listId: string) => {
+		const newCard: Card = {
+			id: uuid(),
+			title: "New Card",
+			description: "Description",
+			owner: "Franco",
+			columnId: listId,
+		};
+		addNewCard(newCard);
 	};
 
 	if (isDragging) {
@@ -103,7 +116,10 @@ const CardList: React.FC<Props> = ({ data, cards, updateColumn }) => {
 				</SortableContext>
 			</ul>
 			<div className="bg-indigo-500 rounded-b-lg hover:opacity-90">
-				<button className="w-full h-10 flex items-center gap-2 px-4 font-semibold text-white hover:outline-none">
+				<button
+					onClick={() => createNewCard(data.id)}
+					className="w-full h-10 flex items-center gap-2 px-4 font-semibold text-white hover:outline-none"
+				>
 					<Add />
 					Add Card
 				</button>
