@@ -73,15 +73,15 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 		<section
 			ref={setNodeRef}
 			style={style}
-			className="w-[350px] rounded-lg bg-neutral-50 overflow-x-hidden flex flex-col shadow-md"
+			className="w-[350px] rounded-lg bg-neutral-50 dark:bg-neutral-800 overflow-x-hidden flex-shrink-0 flex flex-col shadow-md first:ml-auto"
 		>
 			<div
 				{...attributes}
 				{...listeners}
-				className="flex items-center justify-between p-4 bg-white"
+				className="flex items-center justify-between p-4 bg-white dark:bg-neutral-950"
 			>
 				<div className="flex items-center gap-2">
-					<p className=" text-sm font-semibold text-neutral-100 rounded-full w-5 h-5 grid place-content-center bg-neutral-800">
+					<p className="text-sm font-semibold text-neutral-100 dark:text-neutral-900 rounded-full w-5 h-5 grid place-content-center bg-neutral-800 dark:bg-neutral-100">
 						{cards.length}
 					</p>
 					{!isEditing && (
@@ -94,7 +94,7 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 					)}
 					{isEditing && (
 						<input
-							className="focus:outline-indigo-500"
+							className="focus:outline-indigo-500 focus:shadow-none dark:bg-black"
 							type="text"
 							value={data.title}
 							autoFocus
@@ -123,10 +123,10 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 					))}
 				</SortableContext>
 			</ul>
-			<div className="bg-indigo-500 rounded-b-lg hover:opacity-90">
+			<div className="bg-indigo-600 rounded-b-lg hover:opacity-90">
 				<button
 					onClick={handleOpenModal}
-					className="w-full h-10 flex items-center gap-2 px-4 font-semibold text-white hover:outline-none"
+					className="w-full h-10 flex items-center gap-2 px-4 font-semibold text-white focus:outline-none"
 				>
 					<Add />
 					Add Card

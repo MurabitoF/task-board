@@ -42,7 +42,7 @@ const CardItem: React.FC<Props> = ({ data }) => {
 			<div
 				ref={setNodeRef}
 				style={style}
-				className="min-h-20 border-2 border-neutral-300 rounded-lg bg-white opacity-70"
+				className="min-h-20 border-2 border-neutral-300 dark:border-neutral-800 rounded-lg bg-white dark:bg-neutral-700 opacity-70"
 			></div>
 		);
 	}
@@ -65,7 +65,7 @@ const CardItem: React.FC<Props> = ({ data }) => {
 			{...listeners}
 			ref={setNodeRef}
 			style={style}
-			className="bg-white w-full  p-4 rounded-lg flex flex-col ring-1 ring-neutral-100 border-l-4 border-red-400"
+			className="bg-white dark:bg-neutral-900 w-full  p-4 rounded-lg flex flex-col ring-1 ring-neutral-100 dark:ring-neutral-900 border-l-4 border-red-400"
 			onClick={handleOpenModal}
 			onMouseEnter={() => setIsMouseOver(true)}
 			onMouseLeave={() => setIsMouseOver(false)}

@@ -30,7 +30,7 @@ const TextArea: React.FC<Props> = ({
 					required: required ? `${label} is Required` : "",
 				})}
 				{...props}
-				className="px-2 py-1 text-lg border-2 min-h-32 max-h-64 border-indigo-400 rounded-lg focus:outline-none resize-none overflow-y-auto"
+				className="px-2 py-1 text-lg border-2 min-h-32 max-h-64 border-indigo-400 rounded-lg focus:outline-none resize-none overflow-y-auto dark:bg-neutral-950"
 			/>
 			<small className="text-red-500">{error}</small>
 		</div>

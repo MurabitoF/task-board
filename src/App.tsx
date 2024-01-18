@@ -149,9 +149,9 @@ export default function App() {
 				onDragEnd={handleDragEnd}
 				onDragOver={handleDragOver}
 			>
-				<main className="bg-neutral-100 min-h-screen w-full">
+				<main className="bg-neutral-100 dark:bg-neutral-900 min-h-screen w-full">
 					<h1 className="text-4xl text-center p-8 font-semibold">Task Board</h1>
-					<div className="flex justify-center items-start gap-6">
+					<div className="flex items-start gap-6 overflow-x-auto overflow-y-hidden px-16 py-4">
 						<SortableContext
 							items={columnsIds}
 							strategy={horizontalListSortingStrategy}
@@ -166,8 +166,10 @@ export default function App() {
 						</SortableContext>
 						<button
 							onClick={() => createNewColumn()}
-							className="px-8 py-4 text-2xl text-neutral-300 flex items-center justify-center gap-4 border-2 rounded-lg border-dashed border-neutral-300 
-						hover:text-indigo-500 hover:border-indigo-500 hover:border-solid hover: bg-neutral-50 transition-all"
+							className="px-8 py-4 text-2xl text-neutral-300 dark:text-neutral-500 flex-shrink-0 flex items-center justify-center gap-4 border-2 rounded-lg 
+							border-neutral-300 dark:border-neutral-500 hover:text-indigo-500 hover:border-indigo-500 bg-neutral-50 dark:bg-neutral-900 transition-all
+								first:ml-auto last:mr-auto
+							"
 						>
 							<Add /> Add Column
 						</button>

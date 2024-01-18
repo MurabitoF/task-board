@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 #root {
-  @apply text-neutral-800
+  @apply text-neutral-800 dark:text-neutral-100
 }
 
 *::-webkit-scrollbar {
   width: 5px;
+  height: 8px;
 }
 
 *::-webkit-scrollbar-track {

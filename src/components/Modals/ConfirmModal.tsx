@@ -41,7 +41,7 @@ const ConfirmModal: React.FC<Props> = ({
 				<h2 className="text-xl font-semibold">{title}</h2>
 				<button
 					onClick={handleClose}
-					className="stroke-neutral-400 hover:stroke-neutral-600"
+					className="stroke-neutral-400 hover:stroke-neutral-600 dark:stroke-neutral-700 dark:hover:stroke-neutral-200 transition-all"
 				>
 					<Close />
 				</button>

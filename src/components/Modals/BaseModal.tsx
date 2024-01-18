@@ -18,7 +18,8 @@ const BaseModal = forwardRef<HTMLDialogElement, PropsWithChildren<Props>>(
 			<dialog
 				ref={dialogRef}
 				onClick={handleClick}
-				className={`fixed inset-0 z-10 overflow-y-auto rounded-lg shadow-md backdrop:bg-neutral-500/30 backdrop:backdrop-blur-sm ${className}`}
+				className={`fixed inset-0 z-10 overflow-y-auto rounded-lg shadow-md backdrop:bg-neutral-500/30 dark:backdrop:bg-neutral-900/30 
+				backdrop:backdrop-blur-sm dark:bg-neutral-950 dark:text-neutral-100 ${className}`}
 			>
 				<div className="p-4">{children}</div>
 			</dialog>,

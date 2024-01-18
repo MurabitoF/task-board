@@ -33,7 +33,7 @@ const Input: React.FC<Props> = ({
 					required: required ? `${label} is Required` : "",
 				})}
 				{...props}
-				className="px-2 py-1 text-lg border-2 border-indigo-400 rounded-lg focus:outline-none"
+				className="px-2 py-1 text-lg border-2 border-indigo-400 rounded-lg focus:outline-none dark:bg-neutral-950"
 			/>
 			<small className="text-red-500">{error}</small>
 		</div>
