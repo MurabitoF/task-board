@@ -12,6 +12,7 @@ import Add from "./Icons/Add";
 import useCardStore from "../stores/cards";
 import useColumnStore from "../stores/columns";
 import Trash from "./Icons/Trash";
+import ConfirmModal from "./Modals/ConfirmModal";
 
 interface Props {
 	data: List;
@@ -19,9 +20,11 @@ interface Props {
 }
 
 const CardList: React.FC<Props> = ({ data, cards }) => {
-	const { setSelectedListId, setShowModal } = useCardStore();
+	const { setSelectedListId, setShowModal, removeCardsFromColumn } =
+		useCardStore();
 	const { updateColumn, removeColumn } = useColumnStore();
 	const [isEditing, setIsEditing] = useState(false);
+	const [isColumnDelete, setIsColumnDelete] = useState(false);
 	const cardsIds = useMemo(() => cards.map((card) => card.id), [cards]);
 	const {
 		attributes,
@@ -37,7 +40,7 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 			type: "Column",
 			column: data,
 		},
-		disabled: isEditing,
+		disabled: isEditing || isColumnDelete,
 	});
 
 	const style = {
@@ -49,6 +52,11 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 	const handleOpenModal = () => {
 		setShowModal(true);
 		setSelectedListId(data.id);
+	};
+
+	const handleDeleteColumn = () => {
+		removeColumn(data.id);
+		removeCardsFromColumn(data.id);
 	};
 
 	if (isDragging) {
@@ -98,7 +106,7 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 					)}
 				</div>
 				<button
-					onClick={() => removeColumn(data.id)}
+					onClick={() => setIsColumnDelete(true)}
 					className="rounded-lg p-1 stroke-neutral-500 hover:stroke-white hover:bg-red-500 transition-all"
 				>
 					<Trash />
@@ -124,6 +132,13 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 					Add Card
 				</button>
 			</div>
+			<ConfirmModal
+				open={isColumnDelete}
+				title="Delete Column"
+				message="Are you sure you want to delete this column? All the tasks will be lost."
+				onAccept={handleDeleteColumn}
+				onClose={() => setIsColumnDelete(false)}
+			/>
 		</section>
 	);
 };

@@ -13,6 +13,7 @@ interface CardStore {
 	setCards: (cards: Card[]) => void;
 	addNewCard: (card: Card) => void;
 	removeCard: (cardId: string) => void;
+	removeCardsFromColumn: (columnId: string) => void;
 	updateCard: (updatedCard: Card) => void;
 }
 
@@ -31,6 +32,10 @@ const useCardStore = create<CardStore>()(
 			removeCard: (cardId) =>
 				set((state) => ({
 					cards: state.cards.filter((card) => card.id !== cardId),
+				})),
+			removeCardsFromColumn: (columnId) =>
+				set((state) => ({
+					cards: state.cards.filter((card) => card.columnId !== columnId),
 				})),
 			updateCard: (updatedCard) =>
 				set((state) => ({
