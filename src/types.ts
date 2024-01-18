@@ -10,3 +10,8 @@ export interface List {
 	id: string;
 	title: string;
 }
+
+export interface CardFormValues {
+	title: string;
+	description: string;
+}
