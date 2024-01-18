@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import { CardFormValues } from "../../types";
 import useCardStore from "../../stores/cards";
-import BaseModal from "../BaseModal";
+import BaseModal from "./BaseModal";
 import Close from "../Icons/Close";
 import Input from "../Inputs/Input";
 import TextArea from "../Inputs/TextArea";
