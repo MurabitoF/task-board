@@ -72,7 +72,7 @@ const CardModal: React.FC<Props> = ({ open, onClose }) => {
 					<Close />
 				</button>
 			</div>
-			<form>
+			<form className="flex flex-col gap-4">
 				<Input
 					name="title"
 					label="Title"

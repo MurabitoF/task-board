@@ -94,7 +94,7 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 					)}
 					{isEditing && (
 						<input
-							className=""
+							className="focus:outline-indigo-500"
 							type="text"
 							value={data.title}
 							autoFocus
