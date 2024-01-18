@@ -6,16 +6,14 @@ import { Tooltip } from "react-tooltip";
 import type { Card } from "../types";
 import Trash from "./Icons/Trash";
 import useCardStore from "../stores/cards";
-
 interface Props {
 	data: Card;
 }
 
 const CardItem: React.FC<Props> = ({ data }) => {
-	const [isEditing, setIsEditing] = useState(false);
 	const [isMouseOver, setIsMouseOver] = useState(false);
 	const titleRef = useRef<HTMLHeadingElement>(null);
-	const { removeCard } = useCardStore();
+	const { removeCard, showModal, setShowModal, setEditCard } = useCardStore();
 	const {
 		attributes,
 		isDragging,
@@ -29,6 +27,7 @@ const CardItem: React.FC<Props> = ({ data }) => {
 			type: "Card",
 			card: data,
 		},
+		disabled: showModal,
 	});
 
 	const style = {
@@ -53,6 +52,11 @@ const CardItem: React.FC<Props> = ({ data }) => {
 		return false;
 	};
 
+	const handleOpenModal = () => {
+		setEditCard(data);
+		setShowModal(true);
+	};
+
 	return (
 		<li
 			{...attributes}
@@ -60,6 +64,7 @@ const CardItem: React.FC<Props> = ({ data }) => {
 			ref={setNodeRef}
 			style={style}
 			className="bg-white w-full  p-4 rounded-lg flex flex-col ring-1 ring-neutral-100 border-l-4 border-red-400"
+			onClick={handleOpenModal}
 			onMouseEnter={() => setIsMouseOver(true)}
 			onMouseLeave={() => setIsMouseOver(false)}
 		>
@@ -77,10 +82,13 @@ const CardItem: React.FC<Props> = ({ data }) => {
 				<Tooltip id={data.id} />
 				{isMouseOver && (
 					<button
-						onClick={() => removeCard(data.id)}
+						onClick={(e) => {
+							e.stopPropagation();
+							removeCard(data.id);
+						}}
 						aria-label="delete-card"
 						title="delete-card"
-						className="stroke-neutral-500 hover:stroke-red-500 transition-all"
+						className="stroke-neutral-500 p-[2px] rounded-lg hover:stroke-red-500 hover:bg-neutral-300/30 transition-all z-10"
 					>
 						<Trash />
 					</button>

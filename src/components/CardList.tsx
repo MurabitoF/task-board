@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { v4 as uuid } from "uuid";
 import {
 	SortableContext,
 	useSortable,
@@ -20,7 +19,7 @@ interface Props {
 }
 
 const CardList: React.FC<Props> = ({ data, cards }) => {
-	const { addNewCard } = useCardStore();
+	const { setSelectedListId, setShowModal } = useCardStore();
 	const { updateColumn, removeColumn } = useColumnStore();
 	const [isEditing, setIsEditing] = useState(false);
 	const cardsIds = useMemo(() => cards.map((card) => card.id), [cards]);
@@ -47,15 +46,9 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 		height: isDragging ? node.current?.offsetHeight : "auto",
 	};
 
-	const createNewCard = (listId: string) => {
-		const newCard: Card = {
-			id: uuid(),
-			title: "New Card",
-			description: "Description",
-			owner: "Franco",
-			columnId: listId,
-		};
-		addNewCard(newCard);
+	const handleOpenModal = () => {
+		setShowModal(true);
+		setSelectedListId(data.id);
 	};
 
 	if (isDragging) {
@@ -124,7 +117,7 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 			</ul>
 			<div className="bg-indigo-500 rounded-b-lg hover:opacity-90">
 				<button
-					onClick={() => createNewCard(data.id)}
+					onClick={handleOpenModal}
 					className="w-full h-10 flex items-center gap-2 px-4 font-semibold text-white hover:outline-none"
 				>
 					<Add />

@@ -25,10 +25,18 @@ import CardListOverlay from "./components/CardListOverlay";
 import useCardStore from "./stores/cards";
 import useColumnStore from "./stores/columns";
 import Add from "./components/Icons/Add";
+import CardModal from "./components/Modals/CardModal";
 
 export default function App() {
 	const { columns, setColumns, addNewColumn } = useColumnStore();
-	const { cards, setCards } = useCardStore();
+	const {
+		cards,
+		setCards,
+		showModal,
+		setShowModal,
+		setEditCard,
+		setSelectedListId,
+	} = useCardStore();
 	const columnsIds = useMemo(() => columns.map((list) => list.id), [columns]);
 	const [selectedColumn, setSelectedColumn] = useState<List | null>(null);
 	const [selectedCard, setSelectedCard] = useState<Card | null>(null);
@@ -119,6 +127,12 @@ export default function App() {
 		}
 	};
 
+	const handleCloseModal = () => {
+		setSelectedListId(undefined);
+		setEditCard(undefined);
+		setShowModal(false);
+	};
+
 	const createNewColumn = () => {
 		const newColumn: List = {
 			id: uuid(),
@@ -128,50 +142,53 @@ export default function App() {
 	};
 
 	return (
-		<DndContext
-			sensors={sensors}
-			onDragStart={handleDragStart}
-			onDragEnd={handleDragEnd}
-			onDragOver={handleDragOver}
-		>
-			<main className="bg-neutral-100 min-h-screen w-full">
-				<h1 className="text-4xl text-center p-8 font-semibold">Task Board</h1>
-				<div className="flex justify-center items-start gap-6">
-					<SortableContext
-						items={columnsIds}
-						strategy={horizontalListSortingStrategy}
-					>
-						{columns.map((data) => (
-							<CardList
-								key={data.id}
-								data={data}
-								cards={cards.filter((card) => card.columnId === data.id)}
+		<>
+			<DndContext
+				sensors={sensors}
+				onDragStart={handleDragStart}
+				onDragEnd={handleDragEnd}
+				onDragOver={handleDragOver}
+			>
+				<main className="bg-neutral-100 min-h-screen w-full">
+					<h1 className="text-4xl text-center p-8 font-semibold">Task Board</h1>
+					<div className="flex justify-center items-start gap-6">
+						<SortableContext
+							items={columnsIds}
+							strategy={horizontalListSortingStrategy}
+						>
+							{columns.map((data) => (
+								<CardList
+									key={data.id}
+									data={data}
+									cards={cards.filter((card) => card.columnId === data.id)}
+								/>
+							))}
+						</SortableContext>
+						<button
+							onClick={() => createNewColumn()}
+							className="px-8 py-4 text-2xl text-neutral-300 flex items-center justify-center gap-4 border-2 rounded-lg border-dashed border-neutral-300 
+						hover:text-indigo-500 hover:border-indigo-500 hover:border-solid hover: bg-neutral-50 transition-all"
+						>
+							<Add /> Add Column
+						</button>
+					</div>
+				</main>
+				{createPortal(
+					<DragOverlay>
+						{selectedColumn && (
+							<CardListOverlay
+								data={selectedColumn}
+								cards={cards.filter(
+									(card) => card.columnId === selectedColumn.id,
+								)}
 							/>
-						))}
-					</SortableContext>
-					<button
-						onClick={() => createNewColumn()}
-						className="px-8 py-12 text-2xl text-neutral-300 flex items-center justify-center gap-4 border-2 rounded-lg border-dashed border-neutral-300 
-					hover:text-neutral-800 hover:border-neutral-800 hover:border-solid hover: bg-neutral-50 transition-all"
-					>
-						<Add /> Add Column
-					</button>
-				</div>
-			</main>
-			{createPortal(
-				<DragOverlay>
-					{selectedColumn && (
-						<CardListOverlay
-							data={selectedColumn}
-							cards={cards.filter(
-								(card) => card.columnId === selectedColumn.id,
-							)}
-						/>
-					)}
-					{selectedCard && <CardItemOverlay data={selectedCard} />}
-				</DragOverlay>,
-				document.body,
-			)}
-		</DndContext>
+						)}
+						{selectedCard && <CardItemOverlay data={selectedCard} />}
+					</DragOverlay>,
+					document.body,
+				)}
+			</DndContext>
+			{showModal && <CardModal open={showModal} onClose={handleCloseModal} />}
+		</>
 	);
 }
