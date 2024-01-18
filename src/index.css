@@ -5,3 +5,15 @@
 #root {
   @apply text-neutral-800
 }
+
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  @apply shadow-sm
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-neutral-300 hover:bg-neutral-400 transition-colors rounded-full
+}
