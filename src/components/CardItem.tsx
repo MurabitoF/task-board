@@ -6,12 +6,14 @@ import { Tooltip } from "react-tooltip";
 import type { Card } from "../types";
 import Trash from "./Icons/Trash";
 import useCardStore from "../stores/cards";
+import ConfirmModal from "./Modals/ConfirmModal";
 interface Props {
 	data: Card;
 }
 
 const CardItem: React.FC<Props> = ({ data }) => {
 	const [isMouseOver, setIsMouseOver] = useState(false);
+	const [isDeleteCard, setIsDeleteCard] = useState(false);
 	const titleRef = useRef<HTMLHeadingElement>(null);
 	const { removeCard, showModal, setShowModal, setEditCard } = useCardStore();
 	const {
@@ -27,7 +29,7 @@ const CardItem: React.FC<Props> = ({ data }) => {
 			type: "Card",
 			card: data,
 		},
-		disabled: showModal,
+		disabled: showModal || isDeleteCard,
 	});
 
 	const style = {
@@ -84,7 +86,8 @@ const CardItem: React.FC<Props> = ({ data }) => {
 					<button
 						onClick={(e) => {
 							e.stopPropagation();
-							removeCard(data.id);
+							// removeCard(data.id);
+							setIsDeleteCard(true);
 						}}
 						aria-label="delete-card"
 						title="delete-card"
@@ -95,6 +98,14 @@ const CardItem: React.FC<Props> = ({ data }) => {
 				)}
 			</div>
 			<p className="text-sm text-slate-400 self-end">{data.owner}</p>
+
+			<ConfirmModal
+				open={isDeleteCard}
+				title="Delete Card"
+				message="Are you sure you want to delete this card?"
+				onAccept={() => removeCard(data.id)}
+				onClose={() => setIsDeleteCard(false)}
+			/>
 		</li>
 	);
 };
