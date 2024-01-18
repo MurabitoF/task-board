@@ -59,8 +59,6 @@ const CardModal: React.FC<Props> = ({ open, onClose }) => {
 		dialogRef.current?.close();
 	};
 
-	useEffect(() => console.log(errors), [errors]);
-
 	return (
 		<BaseModal ref={dialogRef} onClose={handleClose} className="w-[700px]">
 			<div className="pb-4 flex justify-between items-center">
@@ -80,19 +78,15 @@ const CardModal: React.FC<Props> = ({ open, onClose }) => {
 					label="Title"
 					register={register}
 					required
+					placeholder="Task Title"
 					error={errors.title?.message}
 				/>
-				<div className="flex flex-col gap-1">
-					<label className="font-medium">
-						{/* {'Description'} {props.required && <span className="text-red-500">*</span>} */}
-						{"Description"}
-					</label>
-					<textarea
-						{...register("description")}
-						className="px-2 py-1 text-lg border-2 max-h-64 border-indigo-400 rounded-lg focus:outline-none resize-none overflow-y-auto"
-					/>
-					<small className="text-red-500">{errors.description?.message}</small>
-				</div>
+				<TextArea
+					name="description"
+					label="Description"
+					placeholder="Task Description"
+					register={register}
+				/>
 			</form>
 			<div className="pt-4 flex gap-4 items-center justify-end">
 				<button
