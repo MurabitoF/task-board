@@ -17,6 +17,7 @@ import {
 	arrayMove,
 	horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 
 import { Card, List } from "./types";
 import CardList from "./components/CardList";
@@ -145,6 +146,7 @@ export default function App() {
 		<>
 			<DndContext
 				sensors={sensors}
+				modifiers={[restrictToWindowEdges]}
 				onDragStart={handleDragStart}
 				onDragEnd={handleDragEnd}
 				onDragOver={handleDragOver}
