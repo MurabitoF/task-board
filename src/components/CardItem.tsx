@@ -7,6 +7,7 @@ import type { Card } from "../types";
 import Trash from "./Icons/Trash";
 import useCardStore from "../stores/cards";
 import ConfirmModal from "./Modals/ConfirmModal";
+import { AnimatePresence, motion } from "framer-motion";
 interface Props {
 	data: Card;
 }
@@ -60,54 +61,59 @@ const CardItem: React.FC<Props> = ({ data }) => {
 	};
 
 	return (
-		<li
-			{...attributes}
-			{...listeners}
-			ref={setNodeRef}
-			style={style}
-			className="bg-white dark:bg-neutral-900 w-full  p-4 rounded-lg flex flex-col ring-1 ring-neutral-100 dark:ring-neutral-900 border-l-4 border-red-400"
-			onClick={handleOpenModal}
-			onMouseEnter={() => setIsMouseOver(true)}
-			onMouseLeave={() => setIsMouseOver(false)}
-		>
-			<div className="flex justify-between items-center">
-				<h3
-					ref={titleRef}
-					data-tooltip-id={data.id}
-					data-tooltip-content={isOverflowing() ? data.title : ""}
-					data-tooltip-placement="top"
-					data-tooltip-delay-show={800}
-					className="text-xl text-ellipsis overflow-x-hidden"
-				>
-					{data.title}
-				</h3>
-				<Tooltip id={data.id} />
-				{isMouseOver && (
-					<button
-						onClick={(e) => {
-							e.stopPropagation();
-							// removeCard(data.id);
-							setIsDeleteCard(true);
-						}}
-						aria-label="delete-card"
-						title="delete-card"
-						className="stroke-neutral-500 p-[2px] rounded-lg hover:stroke-red-500 hover:bg-neutral-300/30 transition-all z-10"
+		<AnimatePresence>
+			<motion.li
+				initial={{ y: -10, opacity: 0 }}
+				animate={{ y: 0, x: 0, opacity: 1 }}
+				exit={{ x: 1000, opacity: 0 }}
+				{...attributes}
+				{...listeners}
+				ref={setNodeRef}
+				style={style}
+				className="bg-white dark:bg-neutral-900 w-full  p-4 rounded-lg flex flex-col ring-1 ring-neutral-100 dark:ring-neutral-900 border-l-4 border-red-400"
+				onClick={handleOpenModal}
+				onMouseEnter={() => setIsMouseOver(true)}
+				onMouseLeave={() => setIsMouseOver(false)}
+			>
+				<div className="flex justify-between items-center">
+					<h3
+						ref={titleRef}
+						data-tooltip-id={data.id}
+						data-tooltip-content={isOverflowing() ? data.title : ""}
+						data-tooltip-placement="top"
+						data-tooltip-delay-show={800}
+						className="text-xl text-ellipsis overflow-x-hidden"
 					>
-						<Trash />
-					</button>
+						{data.title}
+					</h3>
+					<Tooltip id={data.id} />
+					{isMouseOver && (
+						<button
+							onClick={(e) => {
+								e.stopPropagation();
+								// removeCard(data.id);
+								setIsDeleteCard(true);
+							}}
+							aria-label="delete-card"
+							title="delete-card"
+							className="stroke-neutral-500 p-[2px] rounded-lg hover:stroke-red-500 hover:bg-neutral-300/30 transition-all z-10"
+						>
+							<Trash />
+						</button>
+					)}
+				</div>
+				<p className="text-sm text-slate-400 self-end">{data.owner}</p>
+				{isDeleteCard && (
+					<ConfirmModal
+						open={isDeleteCard}
+						title="Delete Card"
+						message="Are you sure you want to delete this card?"
+						onAccept={() => removeCard(data.id)}
+						onClose={() => setIsDeleteCard(false)}
+					/>
 				)}
-			</div>
-			<p className="text-sm text-slate-400 self-end">{data.owner}</p>
-			{isDeleteCard && (
-				<ConfirmModal
-					open={isDeleteCard}
-					title="Delete Card"
-					message="Are you sure you want to delete this card?"
-					onAccept={() => removeCard(data.id)}
-					onClose={() => setIsDeleteCard(false)}
-				/>
-			)}
-		</li>
+			</motion.li>
+		</AnimatePresence>
 	);
 };
 
