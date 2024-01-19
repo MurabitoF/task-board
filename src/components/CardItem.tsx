@@ -98,14 +98,15 @@ const CardItem: React.FC<Props> = ({ data }) => {
 				)}
 			</div>
 			<p className="text-sm text-slate-400 self-end">{data.owner}</p>
-
-			<ConfirmModal
-				open={isDeleteCard}
-				title="Delete Card"
-				message="Are you sure you want to delete this card?"
-				onAccept={() => removeCard(data.id)}
-				onClose={() => setIsDeleteCard(false)}
-			/>
+			{isDeleteCard && (
+				<ConfirmModal
+					open={isDeleteCard}
+					title="Delete Card"
+					message="Are you sure you want to delete this card?"
+					onAccept={() => removeCard(data.id)}
+					onClose={() => setIsDeleteCard(false)}
+				/>
+			)}
 		</li>
 	);
 };

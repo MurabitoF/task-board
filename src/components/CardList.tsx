@@ -132,13 +132,15 @@ const CardList: React.FC<Props> = ({ data, cards }) => {
 					Add Card
 				</button>
 			</div>
-			<ConfirmModal
-				open={isColumnDelete}
-				title="Delete Column"
-				message="Are you sure you want to delete this column? All the tasks will be lost."
-				onAccept={handleDeleteColumn}
-				onClose={() => setIsColumnDelete(false)}
-			/>
+			{isColumnDelete && (
+				<ConfirmModal
+					open={isColumnDelete}
+					title="Delete Column"
+					message="Are you sure you want to delete this column? All the tasks will be lost."
+					onAccept={handleDeleteColumn}
+					onClose={() => setIsColumnDelete(false)}
+				/>
+			)}
 		</section>
 	);
 };
